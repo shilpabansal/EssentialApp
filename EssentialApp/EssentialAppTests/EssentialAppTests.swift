@@ -1,14 +1,14 @@
 //
-//  EssentialLearnAppTests.swift
-//  EssentialLearnAppTests
+//  EssentialAppTests.swift
+//  EssentialAppTests
 //
 //  Created by Shilpa Bansal on 04/04/21.
 //
 
 import XCTest
-@testable import EssentialLearnApp
+@testable import EssentialApp
 
-class EssentialLearnAppTests: XCTestCase {
+class EssentialAppTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

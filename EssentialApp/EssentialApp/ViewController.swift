@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  EssentialLearnApp
+//  EssentialApp
 //
 //  Created by Shilpa Bansal on 04/04/21.
 //

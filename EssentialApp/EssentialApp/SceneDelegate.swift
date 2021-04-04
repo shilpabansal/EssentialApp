@@ -1,11 +1,12 @@
 //
 //  SceneDelegate.swift
-//  EssentialLearnApp
+//  EssentialApp
 //
 //  Created by Shilpa Bansal on 04/04/21.
 //
 
 import UIKit
+import EssentialFeed
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -17,6 +18,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
+        
+        let session = URLSession(configuration: .ephemeral)
+        let client = URLSessionHTTPClient(session: session)
+        let url = URL(string: "https://static1.squarespace.com/static/5891c5b8d1758ec68ef5dbc2/t/5d1c78f21e661a0001ce7cfd/1562147059075/feed-case-study-v1-api-feed.json")!
+        let loader = RemoteFeedLoader(url: url, client: client)
+        let imageLoader = RemoteFeedImageDataLoader(client: client)
+        let feedViewController = FeedUIComposer.composeWith(feedLoader: loader, imageLoader: imageLoader)
+        
+        window?.rootViewController = feedViewController
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
