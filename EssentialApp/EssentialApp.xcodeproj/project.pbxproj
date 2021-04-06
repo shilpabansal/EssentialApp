@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		335C6928261C19E100AB2139 /* EssentialFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 335C6927261C19E100AB2139 /* EssentialFeed.framework */; };
+		335C6929261C19E100AB2139 /* EssentialFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 335C6927261C19E100AB2139 /* EssentialFeed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		337DFF4C2619F18E00C21F47 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337DFF4B2619F18E00C21F47 /* AppDelegate.swift */; };
 		337DFF4E2619F18E00C21F47 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337DFF4D2619F18E00C21F47 /* SceneDelegate.swift */; };
 		337DFF502619F18E00C21F47 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337DFF4F2619F18E00C21F47 /* ViewController.swift */; };
@@ -16,8 +18,6 @@
 		337DFF5B2619F18E00C21F47 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 337DFF592619F18E00C21F47 /* LaunchScreen.storyboard */; };
 		337DFF662619F18F00C21F47 /* EssentialAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337DFF652619F18F00C21F47 /* EssentialAppTests.swift */; };
 		337DFF712619F18F00C21F47 /* EssentialAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337DFF702619F18F00C21F47 /* EssentialAppUITests.swift */; };
-		337DFF862619F21800C21F47 /* EssentialFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 337DFF852619F21800C21F47 /* EssentialFeed.framework */; };
-		337DFF872619F21800C21F47 /* EssentialFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 337DFF852619F21800C21F47 /* EssentialFeed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,13 +38,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		337DFF882619F21800C21F47 /* Embed Frameworks */ = {
+		335C692A261C19E100AB2139 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				337DFF872619F21800C21F47 /* EssentialFeed.framework in Embed Frameworks */,
+				335C6929261C19E100AB2139 /* EssentialFeed.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -52,6 +52,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		335C6927261C19E100AB2139 /* EssentialFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = EssentialFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		337DFF482619F18E00C21F47 /* EssentialApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EssentialApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		337DFF4B2619F18E00C21F47 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		337DFF4D2619F18E00C21F47 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -75,7 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				337DFF862619F21800C21F47 /* EssentialFeed.framework in Frameworks */,
+				335C6928261C19E100AB2139 /* EssentialFeed.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -153,6 +154,7 @@
 		337DFF842619F21800C21F47 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				335C6927261C19E100AB2139 /* EssentialFeed.framework */,
 				337DFF852619F21800C21F47 /* EssentialFeed.framework */,
 			);
 			name = Frameworks;
@@ -168,7 +170,7 @@
 				337DFF442619F18E00C21F47 /* Sources */,
 				337DFF452619F18E00C21F47 /* Frameworks */,
 				337DFF462619F18E00C21F47 /* Resources */,
-				337DFF882619F21800C21F47 /* Embed Frameworks */,
+				335C692A261C19E100AB2139 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
