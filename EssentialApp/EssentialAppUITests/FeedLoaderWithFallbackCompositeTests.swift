@@ -47,6 +47,15 @@ class FeedLoaderWithFallbackCompositeTests: XCTestCase {
         expect(sut: sut, expectedResult: .success(fallbackFeeds))
     }
     
+    func test_load_deliversErrorOnPrimaryAndFallbackFailure() {
+        let primaryError = NSError(domain: "Primary Error", code: 1)
+        let fallbackError = NSError(domain: "Fallback Error", code: 1)
+        
+        let sut = makeSUT(primaryesult: .failure(primaryError), fallbackResult: .failure(fallbackError))
+        
+        expect(sut: sut, expectedResult: .failure(fallbackError))
+    }
+    
     private func expect(sut: FeedLoader, expectedResult: FeedLoader.Result) {
         let exp = expectation(description: "Wait for API")
         
@@ -54,6 +63,8 @@ class FeedLoaderWithFallbackCompositeTests: XCTestCase {
             switch (receivedResult, expectedResult) {
             case let (.success(receivedFeeds), .success(expectedFeeds)):
                 XCTAssertEqual(receivedFeeds, expectedFeeds)
+            case let (.failure(receivedError), .failure(expectedError)):
+                XCTAssertEqual(receivedError.localizedDescription, expectedError.localizedDescription)
             default:
                 XCTFail("Expected \(expectedResult) Received \(receivedResult)")
             }
