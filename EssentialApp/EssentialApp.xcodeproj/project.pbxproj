@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		335C6928261C19E100AB2139 /* EssentialFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 335C6927261C19E100AB2139 /* EssentialFeed.framework */; };
 		335C6929261C19E100AB2139 /* EssentialFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 335C6927261C19E100AB2139 /* EssentialFeed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		336170D8262718F700A4A681 /* FeedLoaderWithFallbackCompositeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336170D7262718F700A4A681 /* FeedLoaderWithFallbackCompositeTests.swift */; };
 		337DFF4C2619F18E00C21F47 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337DFF4B2619F18E00C21F47 /* AppDelegate.swift */; };
 		337DFF4E2619F18E00C21F47 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337DFF4D2619F18E00C21F47 /* SceneDelegate.swift */; };
 		337DFF502619F18E00C21F47 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337DFF4F2619F18E00C21F47 /* ViewController.swift */; };
@@ -53,6 +54,7 @@
 
 /* Begin PBXFileReference section */
 		335C6927261C19E100AB2139 /* EssentialFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = EssentialFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		336170D7262718F700A4A681 /* FeedLoaderWithFallbackCompositeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoaderWithFallbackCompositeTests.swift; sourceTree = "<group>"; };
 		337DFF482619F18E00C21F47 /* EssentialApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EssentialApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		337DFF4B2619F18E00C21F47 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		337DFF4D2619F18E00C21F47 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 			children = (
 				337DFF702619F18F00C21F47 /* EssentialAppUITests.swift */,
 				337DFF722619F18F00C21F47 /* Info.plist */,
+				336170D7262718F700A4A681 /* FeedLoaderWithFallbackCompositeTests.swift */,
 			);
 			path = EssentialAppUITests;
 			sourceTree = "<group>";
@@ -311,6 +314,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				337DFF712619F18F00C21F47 /* EssentialAppUITests.swift in Sources */,
+				336170D8262718F700A4A681 /* FeedLoaderWithFallbackCompositeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
