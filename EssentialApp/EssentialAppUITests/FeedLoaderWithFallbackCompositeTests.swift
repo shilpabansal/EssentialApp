@@ -36,18 +36,7 @@ class FeedLoaderWithFallbackCompositeTests: XCTestCase {
         
         let sut = makeSUT(primaryesult: .success(primaryFeeds), fallbackResult: .success(fallbackFeeds))
         
-        let exp = expectation(description: "Wait for API")
-        
-        sut.load { result in
-            switch result {
-            case .success(let receivedFeeds):
-                XCTAssertEqual(receivedFeeds, primaryFeeds)
-            case .failure:
-                XCTFail("Expected feeds \(primaryFeeds) Received \(result)")
-            }
-            exp.fulfill()
-        }
-        wait(for: [exp], timeout: 1.0)
+        expect(sut: sut, expectedResult: .success(primaryFeeds))
     }
     
     func test_load_deliversFallbackFeedsOnPrimaryFailure() {
@@ -55,14 +44,18 @@ class FeedLoaderWithFallbackCompositeTests: XCTestCase {
         
         let sut = makeSUT(primaryesult: .failure(anyNSError()), fallbackResult: .success(fallbackFeeds))
         
+        expect(sut: sut, expectedResult: .success(fallbackFeeds))
+    }
+    
+    private func expect(sut: FeedLoader, expectedResult: FeedLoader.Result) {
         let exp = expectation(description: "Wait for API")
         
-        sut.load { result in
-            switch result {
-            case .success(let receivedFeeds):
-                XCTAssertEqual(receivedFeeds, fallbackFeeds)
-            case .failure:
-                XCTFail("Expected feeds \(fallbackFeeds) Received \(result)")
+        sut.load { receivedResult in
+            switch (receivedResult, expectedResult) {
+            case let (.success(receivedFeeds), .success(expectedFeeds)):
+                XCTAssertEqual(receivedFeeds, expectedFeeds)
+            default:
+                XCTFail("Expected \(expectedResult) Received \(receivedResult)")
             }
             exp.fulfill()
         }
