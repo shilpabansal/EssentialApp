@@ -7,7 +7,7 @@
 
 import EssentialFeed
 
-public class FeedLoaderWithFallback: FeedLoader {
+public class FeedLoaderWithFallbackComposite: FeedLoader {
     private var primaryLoader: FeedLoader
     private var fallBackLoader: FeedLoader
     

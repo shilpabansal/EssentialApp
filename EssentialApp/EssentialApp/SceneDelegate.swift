@@ -7,6 +7,7 @@
 
 import UIKit
 import EssentialFeed
+import CoreData
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -22,9 +23,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let session = URLSession(configuration: .ephemeral)
         let client = URLSessionHTTPClient(session: session)
         let url = URL(string: "https://static1.squarespace.com/static/5891c5b8d1758ec68ef5dbc2/t/5d1c78f21e661a0001ce7cfd/1562147059075/feed-case-study-v1-api-feed.json")!
-        let loader = RemoteFeedLoader(url: url, client: client)
-        let imageLoader = RemoteFeedImageDataLoader(client: client)
-        let feedViewController = FeedUIComposer.composeWith(feedLoader: loader, imageLoader: imageLoader)
+        let primaryLoader = RemoteFeedLoader(url: url, client: client)
+        
+        let localStoreURL =  NSPersistentContainer.defaultDirectoryURL().appendingPathComponent("feed-store.sqlite")
+        let localFeedStore = try! CoreDataFeedStore(storeURL: localStoreURL)
+        
+        let fallbackLoader = LocalFeedLoader(store: localFeedStore, currentDate: Date.init)
+        
+        
+        let primaryImageLoader = RemoteFeedImageDataLoader(client: client)
+        let fallbackImageLoader = RemoteFeedImageDataLoader(client: client)
+        let feedViewController = FeedUIComposer.composeWith(feedLoader:
+                                                                FeedLoaderWithFallbackComposite(primaryLoader: primaryLoader,
+                                                                                       fallBackLoader: fallbackLoader),
+                                                            imageLoader: FeedImageDataLoaderWithFallbackComposite(primary: primaryImageLoader, fallback: fallbackImageLoader))
         
         window?.rootViewController = feedViewController
     }
