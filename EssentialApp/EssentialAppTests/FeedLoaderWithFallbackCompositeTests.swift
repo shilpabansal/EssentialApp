@@ -53,10 +53,6 @@ class FeedLoaderWithFallbackCompositeTests: XCTestCase {
         wait(for: [exp], timeout: 1.0)
     }
     
-    private func anyNSError() -> NSError {
-        return NSError(domain: "Test Error", code: 1)
-    }
-    
     private func makeSUT(primaryesult: FeedLoader.Result,
                          fallbackResult: FeedLoader.Result,
                          file: StaticString = #file,
@@ -66,17 +62,11 @@ class FeedLoaderWithFallbackCompositeTests: XCTestCase {
         let fallbackLoader = LoaderStub(result: fallbackResult)
         
         let sut = FeedLoaderWithFallback(primaryLoader: primaryLoader, fallBackLoader: fallbackLoader)
-        trackMemoryLeak(primaryLoader, file: file, line: line)
-        trackMemoryLeak(fallbackLoader, file: file, line: line)
-        trackMemoryLeak(sut, file: file, line: line)
+        trackForMemoryLeaks(primaryLoader, file: file, line: line)
+        trackForMemoryLeaks(fallbackLoader, file: file, line: line)
+        trackForMemoryLeaks(sut, file: file, line: line)
         
         return sut
-    }
-    
-    private func trackMemoryLeak(_ instance: AnyObject, file: StaticString = #file, line: UInt = #line) {
-        addTeardownBlock {[weak instance] in
-            XCTAssertNil(instance, "Instance should be deallocated, potential memory leak", file: file, line: line)
-        }
     }
     
     private class LoaderStub: FeedLoader {
