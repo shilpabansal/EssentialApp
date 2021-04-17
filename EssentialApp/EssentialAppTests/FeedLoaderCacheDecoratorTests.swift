@@ -7,28 +7,7 @@
 
 import XCTest
 import EssentialFeed
-import Foundation
-
-protocol FeedCache {
-    typealias SaveResult = Swift.Result<Void, Error>
-    func saveFeedInCache(feeds: [FeedImage], timestamp: Date, completion: @escaping (SaveResult) -> Void)
-}
-
-class FeedLoaderCacheDecorator: FeedLoader {
-    private let decoratee: FeedLoader
-    private let cache: FeedCache
-    
-    init(decoratee: FeedLoader, cache: FeedCache) {
-        self.decoratee = decoratee
-        self.cache = cache
-    }
-    
-    func load(completion: @escaping ((FeedLoader.Result) -> Void)) {
-        decoratee.load {(result) in
-           completion(result)
-        }
-    }
-}
+import EssentialApp
 
 class FeedLoaderCacheDecoratorTests: XCTestCase, FeedLoaderTeseCase {
     func test_load_deliversFeedOnLoaderSuccess() {
@@ -43,9 +22,32 @@ class FeedLoaderCacheDecoratorTests: XCTestCase, FeedLoaderTeseCase {
         expect(sut: sut, toCompleteWith: .failure(anyNSError()))
     }
     
+    func test_load_cachesLoadedFeedOnLoaderSuccess() {
+        let feed = uniqueFeed()
+        let cache = CacheSpy()
+        let sut = makeSUT(loaderResult: .success(feed), cache: cache)
+
+        sut.load {_ in }
+        XCTAssertEqual(cache.messages, [.save(feed)], "Expected to cache loaded feed on success")
+    }
+    
+    func test_load_doesNotCacheOnLoaderFailure() {
+        let cache = CacheSpy()
+        let sut = makeSUT(loaderResult: .failure(anyNSError()), cache: cache)
+
+        sut.load {_ in }
+        XCTAssert(cache.messages.isEmpty, "Expected to cache loaded feed on success")
+    }
+    
     private class CacheSpy: FeedCache {
+        private(set) var messages = [Message]()
+        enum Message: Equatable {
+            case save([FeedImage])
+        }
+
         func saveFeedInCache(feeds: [FeedImage], timestamp: Date, completion: @escaping (SaveResult) -> Void) {
-            
+            messages.append(.save(feeds))
+            completion(.success(()))
         }
     }
     
