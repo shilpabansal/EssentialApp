@@ -7,6 +7,7 @@
 
 import XCTest
 import EssentialFeed
+import EssentialApp
 
 class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
     func test_init_doesNotLoadImageData() {
@@ -93,6 +94,7 @@ class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
        let primaryLoader = LoaderSpy()
        let fallbackLoader = LoaderSpy()
        let sut = FeedImageDataLoaderWithFallbackComposite(primary: primaryLoader, fallback: fallbackLoader)
+       
        trackForMemoryLeaks(primaryLoader, file: file, line: line)
        trackForMemoryLeaks(fallbackLoader, file: file, line: line)
        trackForMemoryLeaks(sut, file: file, line: line)
@@ -122,7 +124,7 @@ class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
          wait(for: [exp], timeout: 1.0)
     }
     
-    private  class  LoaderSpy : FeedImageDataLoader {
+    private class LoaderSpy: FeedImageDataLoader {
         private var messages = [(url: URL, completion: (FeedImageDataLoader.Result) -> Void)]()
 
         private(set) var cancelledURLs = [URL]()
