@@ -32,7 +32,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let localLoader = LocalFeedLoader(store: localFeedStore, currentDate: Date.init)
         let localImageLoader = RemoteFeedImageDataLoader(client: client)
         
-        
         let remoteDecorator = FeedLoaderCacheDecorator(decoratee: remoteLoader, cache: localLoader)
         
         
