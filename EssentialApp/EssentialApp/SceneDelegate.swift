@@ -20,20 +20,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
         
-        let session = URLSession(configuration: .ephemeral)
-        let client = URLSessionHTTPClient(session: session)
-        let url = URL(string: "https://static1.squarespace.com/static/5891c5b8d1758ec68ef5dbc2/t/5d1c78f21e661a0001ce7cfd/1562147059075/feed-case-study-v1-api-feed.json")!
-        let remoteLoader = RemoteFeedLoader(url: url, client: client)
-        let remoteImageLoader = RemoteFeedImageDataLoader(client: client)
+        let remoteClient = makeRemoteClient()
+        let remoteURL = URL(string: "https://static1.squarespace.com/static/5891c5b8d1758ec68ef5dbc2/t/5db4155a4fbade21d17ecd28/1572083034355/essential_app_feed.json")!
+
+        let remoteLoader = RemoteFeedLoader(url: remoteURL, client: remoteClient)
+        let remoteImageLoader = RemoteFeedImageDataLoader(client: remoteClient)
         
         
         let localStoreURL =  NSPersistentContainer.defaultDirectoryURL().appendingPathComponent("feed-store.sqlite")
         let localFeedStore = try! CoreDataFeedStore(storeURL: localStoreURL)
         let localLoader = LocalFeedLoader(store: localFeedStore, currentDate: Date.init)
-        let localImageLoader = RemoteFeedImageDataLoader(client: client)
+        let localImageLoader = RemoteFeedImageDataLoader(client: remoteClient)
         
         let remoteDecorator = FeedLoaderCacheDecorator(decoratee: remoteLoader, cache: localLoader)
-        
         
         let feedViewController = FeedUIComposer.composeWith(feedLoader:
                                                                 FeedLoaderWithFallbackComposite(primaryLoader: remoteDecorator,
@@ -75,7 +74,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Save changes in the application's managed object context when the application transitions to the background.
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
+    
+    private func makeRemoteClient() -> HTTPClient {
+        switch UserDefaults.standard.string(forKey: "connectivity") {
+        case "offline":
+            return AlwaysFailingHTTPClient()
+        default:
+            return URLSessionHTTPClient(session: URLSession(configuration: .ephemeral))
+        }
+    }
 
-
+    
+    private class AlwaysFailingHTTPClient: HTTPClient {
+        func loadFeeds(from url: URL, completion: @escaping (HTTPClient.Result) -> Void) -> HTTPClientTask {
+            completion(.failure(NSError(domain: "offline", code: 0)))
+            return Task()
+        }
+        
+        private class Task: HTTPClientTask {
+            func cancel() {}
+        }
+    }
 }
 
