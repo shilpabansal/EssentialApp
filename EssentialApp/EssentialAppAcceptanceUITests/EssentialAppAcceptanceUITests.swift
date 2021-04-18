@@ -11,10 +11,11 @@ class EssentialAppAcceptanceUITests: XCTestCase {
 
     func test_onLaunch_displaysRemoteFeedWhenCustomerHasConnectivity() {
         let app = XCUIApplication()
+        app.launchArguments = ["-connectivity", "online"]
         app.launch()
 
         let feedCells = app.cells.matching(identifier: "feed-cell")
-        XCTAssertEqual(feedCells.count,22)
+        XCTAssertEqual(feedCells.count, 2)
 
         let firstImage = app.cells.images.matching(identifier: "feed-image").firstMatch
         XCTAssertTrue(firstImage.exists)
