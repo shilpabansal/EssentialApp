@@ -11,8 +11,8 @@ import EssentialApp
 
 class FeedLoaderWithFallbackCompositeTests: XCTestCase, FeedLoaderTeseCase {
     func test_load_deliversPrimaryFeedsOnPrimarySuccess() {
-        let primaryFeeds = uniqueFeed()
-        let fallbackFeeds = uniqueFeed()
+        let primaryFeeds = uniqueFeeds()
+        let fallbackFeeds = uniqueFeeds()
         
         let sut = makeSUT(primaryesult: .success(primaryFeeds), fallbackResult: .success(fallbackFeeds))
         
@@ -20,7 +20,7 @@ class FeedLoaderWithFallbackCompositeTests: XCTestCase, FeedLoaderTeseCase {
     }
     
     func test_load_deliversFallbackFeedsOnPrimaryFailure() {
-        let fallbackFeeds = uniqueFeed()
+        let fallbackFeeds = uniqueFeeds()
         
         let sut = makeSUT(primaryesult: .failure(anyNSError()), fallbackResult: .success(fallbackFeeds))
         

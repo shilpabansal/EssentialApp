@@ -11,7 +11,7 @@ import EssentialApp
 
 class FeedLoaderCacheDecoratorTests: XCTestCase, FeedLoaderTeseCase {
     func test_load_deliversFeedOnLoaderSuccess() {
-        let feed = uniqueFeed()
+        let feed = uniqueFeeds()
         let sut = makeSUT(loaderResult: .success(feed))
 
         expect(sut: sut, toCompleteWith: .success(feed))
@@ -23,7 +23,7 @@ class FeedLoaderCacheDecoratorTests: XCTestCase, FeedLoaderTeseCase {
     }
     
     func test_load_cachesLoadedFeedOnLoaderSuccess() {
-        let feed = uniqueFeed()
+        let feed = uniqueFeeds()
         let cache = CacheSpy()
         let sut = makeSUT(loaderResult: .success(feed), cache: cache)
 
