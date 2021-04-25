@@ -18,11 +18,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         URLSessionHTTPClient(session: URLSession(configuration: .ephemeral))
     }()
     
-    private lazy var store: FeedStore = {
+    private lazy var store: FeedStore & FeedImageDataStore = {
         try! CoreDataFeedStore(storeURL: localStoreURL)
     }()
     
-    convenience init(httpClient: HTTPClient, store: FeedStore & FeedImageDataCache) {
+    private lazy var localFeedLoader: LocalFeedLoader = {
+        LocalFeedLoader(store: store, currentDate: Date.init)
+    }()
+    
+    convenience init(httpClient: HTTPClient, store: FeedStore & FeedImageDataStore) {
         self.init()
         
         self.httpClient = httpClient
@@ -38,29 +42,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func configureWindow() {
-        let remoteClient = makeRemoteClient()
         let remoteURL = URL(string: "https://static1.squarespace.com/static/5891c5b8d1758ec68ef5dbc2/t/5db4155a4fbade21d17ecd28/1572083034355/essential_app_feed.json")!
-
-        let remoteLoader = RemoteFeedLoader(url: remoteURL, client: remoteClient)
-        let remoteImageLoader = RemoteFeedImageDataLoader(client: remoteClient)
-                
-        if CommandLine.arguments.contains("reset") {
-            try? FileManager.default.removeItem(at: localStoreURL)
-        }
         
-        let localFeedStore = store
-        let localLoader = LocalFeedLoader(store: localFeedStore, currentDate: Date.init)
-        let localImageLoader = RemoteFeedImageDataLoader(client: remoteClient)
+        let remoteFeedLoader = RemoteFeedLoader(url: remoteURL, client: httpClient)
+        let remoteImageLoader = RemoteFeedImageDataLoader(client: httpClient)
+        let localImageLoader = LocalFeedImageDataLoader(store: store)
         
-        let remoteDecorator = FeedLoaderCacheDecorator(decoratee: remoteLoader, cache: localLoader)
-        
-        let feedViewController = UINavigationController(rootViewController: FeedUIComposer.composeWith(feedLoader:
-                                                                FeedLoaderWithFallbackComposite(primaryLoader: remoteDecorator,
-                                                                                       fallBackLoader: localLoader),
-                                                            imageLoader:
-                                                                FeedImageDataLoaderWithFallbackComposite(primary: remoteImageLoader, fallback: localImageLoader)))
-        
-        window?.rootViewController = feedViewController
+        window?.rootViewController = UINavigationController(
+            rootViewController: FeedUIComposer.composeWith(
+                feedLoader: FeedLoaderWithFallbackComposite(
+                    primaryLoader: FeedLoaderCacheDecorator(
+                        decoratee: remoteFeedLoader,
+                        cache: localFeedLoader),
+                    fallBackLoader: localFeedLoader),
+                imageLoader: FeedImageDataLoaderWithFallbackComposite(
+                    primary: localImageLoader,
+                    fallback: FeedImageDataLoaderCacheDecorator(
+                        decoratee: remoteImageLoader,
+                        cache: localImageLoader))))
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

@@ -33,13 +33,6 @@ extension InMemoryFeedStore: FeedStore {
     }
 }
 
-extension InMemoryFeedStore: FeedImageDataCache {
-    func save(_ data: Data, for url: URL, completion: @escaping (FeedImageDataCache.Result) -> Void) {
-        feedImageDataCache[url] = data
-        completion(.success(()))
-    }
-}
-
 extension InMemoryFeedStore {
     static var empty: InMemoryFeedStore {
         InMemoryFeedStore ()
@@ -51,5 +44,16 @@ extension InMemoryFeedStore {
 
     static var withNonExpiredFeedCache: InMemoryFeedStore {
         InMemoryFeedStore(feedCache: CachedFeed(feed: [], timestamp: Date()))
+    }
+}
+
+extension InMemoryFeedStore: FeedImageDataStore {
+    func insert(_ data: Data, for url: URL, completion: @escaping (FeedImageDataStore.InsertionResult) -> Void) {
+        feedImageDataCache[url] = data
+        completion(.success(()))
+    }
+    
+    func retrieve(dataForURL url: URL, completion: @escaping (FeedImageDataStore.RetrievalResult) -> Void) {
+        completion(.success(feedImageDataCache[url]))
     }
 }
