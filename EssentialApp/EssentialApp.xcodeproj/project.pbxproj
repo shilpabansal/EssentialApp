@@ -51,6 +51,7 @@
 		33CAFBE62628811500CA837C /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CAFBE52628811500CA837C /* XCTestCase+MemoryLeakTracking.swift */; };
 		33CAFBEB2628813600CA837C /* SharedTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CAFBEA2628813600CA837C /* SharedTestHelpers.swift */; };
 		33CAFBF32628832800CA837C /* FeedImageDataLoaderWithFallbackComposite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CAFBF22628832800CA837C /* FeedImageDataLoaderWithFallbackComposite.swift */; };
+		33EA03E42635B75700F2A331 /* FeedSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EA03E32635B75700F2A331 /* FeedSnapshotTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -128,6 +129,7 @@
 		33CAFBE52628811500CA837C /* XCTestCase+MemoryLeakTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
 		33CAFBEA2628813600CA837C /* SharedTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTestHelpers.swift; sourceTree = "<group>"; };
 		33CAFBF22628832800CA837C /* FeedImageDataLoaderWithFallbackComposite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageDataLoaderWithFallbackComposite.swift; sourceTree = "<group>"; };
+		33EA03E32635B75700F2A331 /* FeedSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedSnapshotTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,6 +208,7 @@
 				3317657E262B0E2F005A697E /* FeedImageDataLoaderCacheDecoratorTests.swift */,
 				335C3C8926344560006415AB /* SceneDelegateTests.swift */,
 				335C3D0526345177006415AB /* FeedAcceptanceTests.swift */,
+				33EA03E32635B75700F2A331 /* FeedSnapshotTests.swift */,
 			);
 			path = EssentialAppTests;
 			sourceTree = "<group>";
@@ -378,6 +381,7 @@
 				335C3CEB26344E32006415AB /* FeedUIIntegrationTestsLoaderSpy.swift in Sources */,
 				335C3D0026344EE9006415AB /* XCTestCaseHelperTracking.swift in Sources */,
 				33176579262B0C11005A697E /* FeedImageDataLoaderTestCase.swift in Sources */,
+				33EA03E42635B75700F2A331 /* FeedSnapshotTests.swift in Sources */,
 				336170E12627300C00A4A681 /* FeedLoaderWithFallbackCompositeTests.swift in Sources */,
 				335C3CF326344E32006415AB /* UIImage+TestHelpers.swift in Sources */,
 				335C3CF026344E32006415AB /* FeedViewController+TestHelpers.swift in Sources */,
