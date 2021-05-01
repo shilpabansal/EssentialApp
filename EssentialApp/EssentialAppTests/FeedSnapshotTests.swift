@@ -10,7 +10,7 @@ import EssentialFeed
 class FeedSnapshotTests: XCTestCase {
     func test_emptyFeeds() {
         let sut = makeSUT()
-        sut.display(cellController: emptyFeeds())
+        sut.display(emptyFeeds())
         
         record(snapshot: sut.snapshot(), fileName: "EMPTY_Feed")
     }
@@ -21,6 +21,14 @@ class FeedSnapshotTests: XCTestCase {
         sut.display(feedWithContent())
 
         record(snapshot: sut.snapshot(), fileName: "FEED_WITH_CONTENT_light")
+    }
+    
+    func test_feedWithError() {
+        let sut =  makeSUT ()
+
+        sut.display(.error(message: "This is a\nmulti-line\nerror message"))
+
+        record(snapshot: sut.snapshot(), fileName: "FEED_WITH_ErrorMessage")
     }
     
     //MARK: - Helpers
@@ -81,7 +89,7 @@ private extension FeedViewController {
             $0.cellController = cellController
             return cellController
         }
-        display(cellController: cells)
+        display(cells)
     }
 }
 
