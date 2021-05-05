@@ -68,6 +68,23 @@ class FeedUIIntegrationTests: XCTestCase {
         assertThat(sut: sut, isRendering: feedImageArray)
     }
     
+    func test_loadFeedCompletion_rendersSuccessfullyLoadedEmptyFeedAfterNonEmptyFeeds() {
+        let image0 = makeImage()
+        let image1 = makeImage()
+        
+        let (loader, sut) = makeSUT()
+        sut.loadViewIfNeeded()
+        
+        XCTAssertEqual(sut.numberOfRenderedImageView, 0)
+        loader.completeFeedLoading(with: [image0, image1], at: 0)
+        assertThat(sut: sut, isRendering: [image0, image1])
+        
+        sut.simulateUserInitiatedFeedLoad()
+        loader.completeFeedLoading(with: [], at: 1)
+        
+        assertThat(sut: sut, isRendering: [])
+    }
+    
     func test_loadFeedCompletion_doesNotAlterCurrentRenderingStateOnError() {
         let image0 = makeImage(description: "Description 0", location: "Location 0")
         
@@ -310,6 +327,9 @@ class FeedUIIntegrationTests: XCTestCase {
     
     //MARK: - Helpers
     private func assertThat(sut: FeedViewController, isRendering feedImages: [FeedImage]) {
+        sut.tableView.layoutIfNeeded()
+        
+        RunLoop.main.run(until: Date())
         guard sut.numberOfRenderedImageView == feedImages.count else {
             return XCTFail("Expected \(feedImages.count), fount \(sut.numberOfRenderedImageView)")
         }
