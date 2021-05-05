@@ -498,3 +498,92 @@ It only accepts the value as dictionary:
     
 Reading
     var singupURL = ProcessInfo.processInfo.environment["signupUrl"]
+    ________________________________________________________________________________________
+
+
+
+
+
+
+
+________________________________________________________________________________________
+    
+    layoutIfNeeded
+    Lays out the subviews immediately, if layout updates are pending.
+    Use this method to force the view to update its layout immediately. When using Auto Layout, the layout engine updates the position of views as needed to satisfy changes in constraints. Using the view that receives the message as the root view, this method lays out the view subtree starting at the root. If no layout updates are pending, this method exits without modifying the layout or calling any layout-related callbacks.
+    
+    
+    
+    setNeedsLayout()
+    Invalidates the current layout of the receiver and triggers a layout update during the next update cycle
+    
+    Call this method on your application’s main thread when you want to adjust the layout of a view’s subviews. This method makes a note of the request and returns immediately. Because this method does not force an immediate update, but instead waits for the next update cycle, you can use it to invalidate the layout of multiple views before any of those views are updated. This behavior allows you to consolidate all of your layout updates to one update cycle, which is usually better for performance.
+    
+    
+    
+    translatesAutoresizingMaskIntoConstraints
+    A Boolean value that determines whether the view’s autoresizing mask is translated into Auto Layout constraints.
+    
+    If this property’s value is true, the system creates a set of constraints that duplicate the behavior specified by the view’s autoresizing mask. This also lets you modify the view’s size and location using the view’s frame, bounds, or center properties, allowing you to create a static, frame-based layout within Auto Layout.
+
+    Note that the autoresizing mask constraints fully specify the view’s size and position; therefore, you cannot add additional constraints to modify this size or position without introducing conflicts. If you want to use Auto Layout to dynamically calculate the size and position of your view, you must set this property to false, and then provide a non ambiguous, nonconflicting set of constraints for the view.
+
+    By default, the property is set to true for any view you programmatically create. If you add views in Interface Builder, the system automatically sets this property to false.
+
+
+requiresConstraintBasedLayout
+
+A Boolean value that indicates whether the receiver depends on the constraint-based layout system.
+
+returns true if the view must be in a window using constraint-based layout to function properly, false otherwise.
+
+
+Custom views should override this to return true if they cannot layout correctly using autoresizing.
+
+
+
+
+How to avoid the common mistake of calling translatesAutoresizingMaskIntoConstraints:
+
+When adding a new view using Auto Layout, it’s a common thing to initialize the new view with CGRectZero since you will provide a set of constraints for that view anyway. The view will be displayed at position (0,0) with width and height of 0. To opt out of the default behaviour you have to remember to set translatesAutoresizingMaskIntoConstraints to false before activating the constraints.
+
+This is what adding a view usually looks like when using Auto Layout:
+
+let newView = UIView(frame: CGRectZero)
+
+addSubview(newView)
+
+newView.translatesAutoresizingMaskIntoConstraints = false // <- never forget this line
+
+NSLayoutConstraint.activateConstraints([
+    newView.topAnchor.constraintEqualToAnchor(topAnchor),
+    newView.leftAnchor.constraintEqualToAnchor(leftAnchor),
+    newView.widthAnchor.constraintEqualToConstant(100),
+    newView.heightAnchor.constraintEqualToConstant(100)])
+
+
+To avoid calling translatesAutoresizingMaskIntoConstraints for parentView and the view which is just created, add below code:
+
+extension NSLayoutConstraint {
+
+    public class func useAndActivateConstraints(_ constraints: [NSLayoutConstraint]) {
+        for constraint in constraints {
+            if let view = constraint.firstItem as? UIView {
+                 view.translatesAutoresizingMaskIntoConstraints = false
+            }
+            if let view = constraint.secondItem as? UIView {
+                 view.translatesAutoresizingMaskIntoConstraints = false
+            }
+        }
+        activate(constraints)
+    }
+}
+
+and use it as below
+    let newView = UIView(frame: .zero)
+    cell.addSubview(newView)
+
+    NSLayoutConstraint.useAndActivateConstraints([newView.topAnchor.constraint(equalTo: cell.topAnchor),
+                                newView.leftAnchor.constraint(equalTo: cell.leftAnchor),
+                                newView.widthAnchor.constraint(equalToConstant: 100),
+                                newView.heightAnchor.constraint(equalToConstant: 100)])
