@@ -6,6 +6,7 @@
 //
 
 import EssentialFeed
+import EssentialFeedCache
 
 public class FeedLoaderCacheDecorator: FeedLoader {
     private let decoratee: FeedLoader
