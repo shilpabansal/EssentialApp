@@ -7,6 +7,7 @@
 
 import Foundation
 import EssentialFeed
+import EssentialFeedAPI
 
 class HTTPClientStub: HTTPClient {
     func loadFeeds(from url: URL, completion: @escaping (HTTPClient.Result) -> Void) -> HTTPClientTask {
