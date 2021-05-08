@@ -8,6 +8,7 @@
 import UIKit
 import EssentialFeed
 
+
 final class FeedViewAdapter: FeedView {
     func display(_ viewModel: FeedViewModel) {
         feedController?.display(viewModel.feeds.map({
